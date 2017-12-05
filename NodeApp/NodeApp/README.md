@@ -1,6 +1,5 @@
-# NodeApp
+# CIS 450 Final Project
 
-Current issues:
+Group members: Dorothy Chang, Samantha Chung, Stella Ge, Gabriella Schwartz
 
-1. It could render the person page now, but still cannot get the data, querying the data path directly works.
-1. clean code
+Yelp/NYC Taxi data

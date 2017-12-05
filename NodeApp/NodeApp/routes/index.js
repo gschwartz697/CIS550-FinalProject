@@ -39,8 +39,6 @@ router.get('/data/:email', function(req,res) {
               ' On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
               ' Join Business on BusinessLocationRel.id=Business.id';
 
-  // var query =' Select DISTINCT Business.name, Business.latitude, Business.longitude From (Select latitude, longitude From Taxi_Pickup Order by count) Taxi Join Business on  ROUND(Business.latitude, 4)=ROUND(Taxi.latitude, 4) and ROUND(Business.longitude,5)=ROUND(Taxi.longitude, 5)';
-
   query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude))';
   query = query + ' LIMIT 40'
 
@@ -119,7 +117,7 @@ router.get('/fivestar', function(req,res) {
   var latitude = 40.7172485;
   var longitude = -73.9448511;
 
-  var query = 'SELECT Business.name, Business.rating, Business.latitude, Business.longitude' +
+  var query = 'SELECT DISTINCT Business.name, Business.rating, Business.latitude, Business.longitude' +
               ' FROM Taxi_Dropoff' +
               ' JOIN BusinessLocationRel ON ROUND(Taxi_Dropoff.latitude, 5) = ' +
               ' ROUND(BusinessLocationRel.latitude, 5) AND ROUND(Taxi_Dropoff.longitude, 5) = ' +
@@ -145,11 +143,11 @@ router.get('/landmark', function(req,res) {
   var latitude = 40.7172485;
   var longitude = -73.9448511;
 
-  var query = 'SELECT Business.name, Business.latitude, Business.longitude' +
+  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
               ' FROM Taxi_Dropoff' +
-              ' JOIN BusinessLocationRel ON ROUND(Taxi_Dropoff.latitude,5) = ' +
-              ' ROUND(BusinessLocationRel.latitude,5) AND ROUND(Taxi_Dropoff.longitude,5)= ' +
-              ' ROUND(BusinessLocationRel.longitude,5)' +
+              ' JOIN BusinessLocationRel ON ROUND(Taxi_Dropoff.latitude,4) = ' +
+              ' ROUND(BusinessLocationRel.latitude,4) AND ROUND(Taxi_Dropoff.longitude,4)= ' +
+              ' ROUND(BusinessLocationRel.longitude,4)' +
               ' JOIN Business ON Business.id = BusinessLocationRel.id' +
               ' WHERE Business.categories LIKE \'%Landmarks%\'' +
               ' OR Business.categories LIKE \'%Local Flavor%\'';
@@ -173,7 +171,7 @@ router.get('/restaurants', function(req,res) {
   var latitude = 40.7172485;
   var longitude = -73.9448511;
 
-  var query = 'SELECT Business.name, Business.latitude, Business.longitude' +
+  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
               ' FROM Taxi_Dropoff' +
               ' JOIN BusinessLocationRel ON ROUND(Taxi_Dropoff.latitude,5) = ' +
               ' ROUND(BusinessLocationRel.latitude,5) AND ROUND(Taxi_Dropoff.longitude,5)= ' +
