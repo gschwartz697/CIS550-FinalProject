@@ -26,19 +26,19 @@ router.get('/insert', function(req, res, next) {
 
 // stella you can change the routes to whatever you want
 // ie you will probably need to add query params for long lat
-router.get('/pickup', function(req,res) {
+router.get('/data/:email', function(req,res) {
 
   // replace these with user input location
   var latitude = 40.7172485;
   var longitude = -73.9448511;
 
   var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
-              'From (Select latitude, longitude' + 
-              'From Taxi_Pickup' +
-              'Order by count) Taxi' +
-              'Join BusinessLocationRel' +
-              'On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
-              'Join Business on BusinessLocationRel.business_id=Business.business_id';
+              ' From (Select latitude, longitude' + 
+              ' From Taxi_Pickup' +
+              ' Order by count) Taxi' +
+              ' Join BusinessLocationRel' +
+              ' On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
+              ' Join Business on BusinessLocationRel.id=Business.id';
 
   // var query =' Select DISTINCT Business.name, Business.latitude, Business.longitude From (Select latitude, longitude From Taxi_Pickup Order by count) Taxi Join Business on  ROUND(Business.latitude, 4)=ROUND(Taxi.latitude, 4) and ROUND(Business.longitude,5)=ROUND(Taxi.longitude, 5)';
 
@@ -66,7 +66,7 @@ router.get('/dropoff', function(req,res) {
               'Order by count) Taxi' +
               'Join BusinessLocationRel' +
               'On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
-              'Join Business on BusinessLocationRel.business_id=Business.business_id';
+              'Join Business on BusinessLocationRel.id=Business.id';
 
   query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude))';
   query = query + ' LIMIT 40'
