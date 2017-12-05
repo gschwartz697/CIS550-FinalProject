@@ -5,10 +5,10 @@ var path = require('path');
 // Connect string to MySQL
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-  host     : 'fling.seas.upenn.edu',
-  user     : 'schwg',
-  password : 'JaGaDa264!',
-  database : 'schwg'
+  host     : 'xxx',
+  user     : 'xxx',
+  password : 'xxx',
+  database : 'xxx'
 });
 
 /* GET home page. */
@@ -24,47 +24,63 @@ router.get('/insert', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', 'views', 'insert.html'));
 });
 
-router.get('/data/:email', function(req,res) {
-  // use console.log() as print() in case you want to debug, example below:
-  var query = '(SELECT P.*, COUNT(F.login) AS numberOfFriends from Person P LEFT JOIN Friends F ON P.login = F.login GROUP BY P.login)';
-  // var query = 'SELECT * FROM Person';
-  // you may change the query during implementation
-  var email = req.params.email;
-  if (email != 'undefined') query = query + ' where login ="' + email + '"' ;
-  // console.log(query);
+// stella you can change the routes to whatever you want
+// ie you will probably need to add query params for long lat
+router.get('/pickup', function(req,res) {
+
+  // replace these with user input location
+  var latitude = 40.7172485;
+  var longitude = -73.9448511;
+
+  var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
+              'From (Select latitude, longitude' + 
+              'From Taxi_Pickup' +
+              'Order by count) Taxi' +
+              'Join BusinessLocationRel' +
+              'On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
+              'Join Business on BusinessLocationRel.business_id=Business.business_id';
+
+  // var query =' Select DISTINCT Business.name, Business.latitude, Business.longitude From (Select latitude, longitude From Taxi_Pickup Order by count) Taxi Join Business on  ROUND(Business.latitude, 4)=ROUND(Taxi.latitude, 4) and ROUND(Business.longitude,5)=ROUND(Taxi.longitude, 5)';
+
+  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude))';
+  query = query + ' LIMIT 40'
+
   connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
+        console.log(rows);
         res.json(rows);
     }  
     });
 });
 
-// ----Your implemention of route handler for "Insert a new record" should go here-----
+router.get('/dropoff', function(req,res) {
 
-router.get('/insert/:login/:name/:sex/:RelationshipStatus/:Birthyear', function(req, res) {
-  var login1 = req.params.login;
-  var name1 = req.params.name;
-  var sex1 = req.params.sex;
-  var relationshipStatus1 = req.params.RelationshipStatus;
-  var birthyear1 = req.params.Birthyear;
+  // replace these with user input location
+  var latitude = 40.7172485;
+  var longitude = -73.9448511;
 
-  var query = 'INSERT INTO Person SET ?'
-  console.log(query);
-  var set = {login: login1, 
-             name: name1, 
-             sex: sex1, 
-             RelationshipStatus: relationshipStatus1, 
-             Birthyear: birthyear1
-  };
+  var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
+              'From (Select latitude, longitude' + 
+              'From Taxi_Dropoff' +
+              'Order by count) Taxi' +
+              'Join BusinessLocationRel' +
+              'On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
+              'Join Business on BusinessLocationRel.business_id=Business.business_id';
 
-  connection.query(query, set, function(err, rows, fields){
+  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude))';
+  query = query + ' LIMIT 40'
+
+  connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
+        console.log(rows);
         res.json(rows);
     }  
-  });
+    });
 });
+
+
 
 
 module.exports = router;
