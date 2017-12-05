@@ -16,6 +16,11 @@ router.get('/', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
 });
 
+/* GET image search page */
+router.get('/image', function(req, res, next) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'images.html'));
+});
+
 router.get('/reference', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', 'views', 'reference.html'));
 });
