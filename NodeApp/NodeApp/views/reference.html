@@ -11,28 +11,37 @@
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
       <!-- Custom styles for this template-->
       <link href="../css/navbar-static-top.css" rel="stylesheet">
+      <style>
+         .nav-link {
+             margin-left: 20px;
+             margin-right: 20px;
+             vertical-align: center;
+         }
+         #navbar {
+             margin-top: 15px;
+         }
+         .tenor-gif-embed {
+             margin-bottom: 10px;
+         }
+         .project-description {
+             font-size: 14px;
+             margin-bottom: 10px;
+         }
+     </style>
    </head>
    <body data-spy="scroll" data-target=".scrollspy">
       <header></header>
       <!-- Static navbar-->
       <nav role="navigation" class="navbar navbar-static-top navbar-default">
-         <div class="container">
-            <div class="navbar-header">
-               <button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-               </button>
-               <a href="#" class="navbar-brand">HW2 - CIS550</a>
+            <div class="container">
+                <div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">Yelp x NYC Taxi</a></div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <a class="nav-link" href="/pickup">Taxi Pickup</a>
+                    <a class="nav-link" href="/dropoff">Taxi Dropoff</a>
+                    <a class="nav-link" href="/reference">Image Search</a>
+                </div>
             </div>
-            <div id="navbar" class="collapse navbar-collapse">
-               <li><a href="/">Your Work</a></li>
-               <li><a href="/insert">Insert a new record</a></li>
-               <li class="active"><a href="/reference">Reference</a></li>
-            </div>
-         </div>
-      </nav>
+        </nav>
       <div class="container">
          <!-- Main component for a primary marketing message or call to action-->
          <div class="jumbotron">
