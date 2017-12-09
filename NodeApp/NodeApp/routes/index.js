@@ -64,12 +64,12 @@ router.get('/dropoff', function(req,res) {
   var longitude = -73.9448511;
 
   var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
-              'From (Select latitude, longitude' + 
-              'From Taxi_Dropoff' +
-              'Order by count) Taxi' +
-              'Join BusinessLocationRel' +
-              'On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
-              'Join Business on BusinessLocationRel.id=Business.id';
+              ' From (Select latitude, longitude' + 
+              ' From Taxi_Dropoff' +
+              ' Order by count) Taxi' +
+              ' Join BusinessLocationRel' +
+              ' On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
+              ' Join Business on BusinessLocationRel.id=Business.id';
 
   query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude))';
   query = query + ' LIMIT 40'
