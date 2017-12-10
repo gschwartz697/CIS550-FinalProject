@@ -32,9 +32,9 @@
             <div class="container">
                 <div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">Yelp x NYC Taxi</a></div>
                 <div id="navbar" class="collapse navbar-collapse">
-                    <a class="nav-link" href="/pickup">Taxi Pickup</a>
+                    <a class="nav-link" href="/data/:pickup">Taxi Pickup</a>
                     <a class="nav-link" href="/dropoff">Taxi Dropoff</a>
-                    <a class="nav-link" href="/reference">Image Search</a>
+                    <a class="nav-link" href="/images">Image Search</a>
                 </div>
             </div>
         </nav>
@@ -49,23 +49,17 @@
             <input name="email" ng-model="email" value="">
             <button type="button" ng-click="Submit()" class="button">Show Persons</button>
         </p> -->
-<!--         <table border="0" cellpadding="10" cellspacing="1" width="500" align="center"> 
+      <table border="0" cellpadding="10" cellspacing="1" width="500" align="center"> 
             <tr> 
-            <td> Login </td>
             <td> Name </td>
-            <td> Sex </td>
-            <td> RelationshipStatus </td>
-            <td> Birthyear </td>
-            <td> NumberOfFriends </td>
+            <td> Latitude </td>
+            <td> Longitude </td>
             <tr ng-repeat="x in data"> 
-            <td> {{x.login}} </td>
-            <td> {{x.name}} </td>
-            <td> {{x.sex}} </td>
-            <td> {{x.relationshipStatus}} </td>
-            <td> {{x.birthyear}} </td>
-            <td> {{x.numberOfFriends}} </td>
+            <td> {{name}} </td>
+            <td> {{latitude}} </td>
+            <td> {{longitude}} </td>
             </tr>
-        </table> -->
+        </table>
         </div>
     </body>
 </html>

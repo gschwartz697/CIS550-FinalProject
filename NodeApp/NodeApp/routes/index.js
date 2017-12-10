@@ -17,7 +17,8 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET image search page */
-router.get('/image', function(req, res, next) {
+router.get('/images', function(req, res, next) {
+  console.log("GOT IMAGES SIGNAL");
   res.sendFile(path.join(__dirname, '../', 'views', 'images.html'));
 });
 
@@ -30,8 +31,8 @@ router.get('/insert', function(req, res, next) {
 });
 
 // most frequent pickup locations closest to input
-router.get('/data/:email', function(req,res) {
-
+router.get('/data/:pickup', function(req,res) {
+  
   // replace these with user input location
   var latitude = 40.7172485;
   var longitude = -73.9448511;
@@ -52,8 +53,10 @@ router.get('/data/:email', function(req,res) {
     else {
         console.log(rows);
         res.json(rows);
+        res.sendFile(path.join(__dirname, '../', 'views', 'showdata.html'));
     }  
     });
+  
 });
 
 // most frequent dropoff locations closest to input
