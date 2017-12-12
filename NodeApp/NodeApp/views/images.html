@@ -4,6 +4,8 @@
         <title>Yelp x NYC Taxi</title>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
         <script src="javascripts/app.js" type="text/javascript"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
+        <script src="../app.js" type="text/javascript"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <!-- Custom styles for this template-->
         <link href="../css/navbar-static-top.css" rel="stylesheet">
@@ -23,7 +25,22 @@
                 font-size: 14px;
                 margin-bottom: 10px;
             }
+            #image-dropdown {
+
+            }
         </style>
+        <script>
+            $.getJSON('/data', function(data) {
+                console.log("in this script function");
+                for (i in data) {
+                    var elt = data[i];
+                    var elem = document.createElement('p');
+                    var text = document.createTextNode('Business: ' + elt.name + ' Photo ID: ' + elt.photo_id);
+                    elem.append(text);
+                    document.getElementById('image-results').append(elem);
+                }
+            });
+        </script>
         
     </head>
     <body data-spy="scroll" data-target=".scrollspy">
@@ -33,15 +50,14 @@
             <div class="container">
                 <div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="#" class="navbar-brand">Yelp x NYC Taxi</a></div>
                 <div id="navbar" class="collapse navbar-collapse">
-                    <a class="nav-link" href="/data/:pickup">Taxi Pickup</a>
-                    <a class="nav-link" href="/dropoff">Taxi Dropoff</a>
+                    <a class="nav-link" href="/queries">Queries</a>
                     <a class="nav-link" href="/images">Image Search</a>
                 </div>
             </div>
         </nav>
 
-        <form id="tableForm" action="/images:results" method="get">
-            <select id="image-dropdown" class="dropdown" data-style="btn-info" name="dropdown">
+        <form id="tableForm" action="/images" method="post">
+            <select id="image-dropdown" class="dropdown" data-style="btn-info" name="city">
               <script>
               var select = document.getElementById("image-dropdown"); 
               var options = ['Richmond Heights', 'Charlotte', 'Toronto', 'Scottsdale', 'Phoenix',
@@ -60,8 +76,11 @@
               }
             </script>
             </select>
-            <input type="submit" />
+            <button type="submit" class="btn btn-primary">Submit </button>
         </form>
+        <div class="row" id="image-results">
+            <h3> Query results</h3>
+        </div>
 
          <!-- <div class="container">
             <div class="jumbotron">

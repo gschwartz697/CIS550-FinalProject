@@ -215,21 +215,19 @@ router.post('/restaurants', function(req,res) {
     });
 });
 
-router.post('/images:results', function(req,res){
+router.post('/images', function(req,res){
+	var city = req.body.city;
 
-	var city = req.params.dropdown.name;
-
-	var query = 'WITH business_ids AS (' +
-				' SELECT business_id, name FROM Business_NonNY B' + 
-				' WHERE B.city='+ city +')' + 
-				' SELECT B.name, P.photo_id' +
-				' FROM business_ids B JOIN Business_Photos P' +
-				' ON B.business_id = P.business_id';
+	var query =' SELECT B.name, P.photo_id' +
+				' FROM Business_NonNY B JOIN Business_Photos P' +
+				' ON B.business_id = P.business_id AND B.city = ' + '\''+ city + '\'';
 
 	connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
-        res.json(rows);
+        console.log(rows);
+        temp = rows;
+        res.sendFile(path.join(__dirname, '../', 'views', 'images.html'));
     }  
     });
 
