@@ -31,12 +31,19 @@ router.get('/insert', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', 'views', 'insert.html'));
 });
 
+router.get('/queries', function(req, res, next) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
+});
+
 // most frequent pickup locations closest to input
-router.get('/pickup', function(req,res) {
+router.post('/pickup', function(req,res) {
   
   // replace these with user input location
   var latitude = 40.7172485;
   var longitude = -73.9448511;
+
+  // var latitude = req.body.latitude;
+  // var longitude = req.body.longitude;
 
   var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
               ' From (Select latitude, longitude' + 
@@ -53,15 +60,13 @@ router.get('/pickup', function(req,res) {
     if (err) console.log(err);
     else {
         console.log(rows);
-        res.json(rows);
+        res.send(rows);
     }  
-    });
-  //res.sendFile(path.join(__dirname, '../', 'views', 'showdata.html'));
-    
+    });    
 });
 
 // most frequent dropoff locations closest to input
-router.get('/dropoff', function(req,res) {
+router.post('/dropoff', function(req,res) {
 
   // replace these with user input location
   var latitude = 40.7172485;
@@ -88,7 +93,7 @@ router.get('/dropoff', function(req,res) {
 });
 
 // most common categories closest to input
-router.get('/categories', function(req,res) {
+router.post('/categories', function(req,res) {
 
   // replace these with user input location
   var latitude = 40.7172485;
@@ -120,7 +125,7 @@ router.get('/categories', function(req,res) {
 });
 
 // highest rated locations closest to input
-router.get('/fivestar', function(req,res) {
+router.post('/fivestar', function(req,res) {
 
   // replace these with user input location
   var latitude = 40.7172485;
@@ -146,7 +151,7 @@ router.get('/fivestar', function(req,res) {
 });
 
 // tourist destinations closest to input
-router.get('/landmark', function(req,res) {
+router.post('/landmark', function(req,res) {
 
   // replace these with user input location
   var latitude = 40.7172485;
@@ -174,7 +179,7 @@ router.get('/landmark', function(req,res) {
 });
 
 // restaurants closest to input
-router.get('/restaurants', function(req,res) {
+router.post('/restaurants', function(req,res) {
 
   // replace these with user input location
   var latitude = 40.7172485;
@@ -203,7 +208,7 @@ router.get('/restaurants', function(req,res) {
     });
 });
 
-router.get('/images:results', function(req,res){
+router.post('/images:results', function(req,res){
 
 	var city = req.params.dropdown.name;
 
