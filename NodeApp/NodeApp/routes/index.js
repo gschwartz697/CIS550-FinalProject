@@ -224,7 +224,7 @@ router.post('/images', function(req,res){
 
   var query = 'SELECT B.name, P.photo_id' +
               ' FROM (SELECT Bus.business_id, Bus.name FROM Business_NonNY Bus WHERE Bus.city = ' + '\''+ city + '\' LIMIT 100) B JOIN Business_Photos P' +
-              ' ON B.business_id = P.business_id LIMIT 50';
+              ' ON B.business_id = P.business_id LIMIT 100';
 
 	connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
