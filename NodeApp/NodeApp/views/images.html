@@ -34,9 +34,14 @@
                 console.log("in this script function");
                 for (i in data) {
                     var elt = data[i];
+                    var DOM_img = document.createElement("img");
+                    // API version
+                    DOM_img.src = "http://s3-media2.ak.yelpcdn.com/bphoto/"+ elt.photo_id + "/ms.jpg";
+
                     var elem = document.createElement('p');
                     var text = document.createTextNode('Business: ' + elt.name + ' Photo ID: ' + elt.photo_id);
                     elem.append(text);
+                    document.getElementById('image-results').appendChild(DOM_img);
                     document.getElementById('image-results').append(elem);
                 }
             });

@@ -218,9 +218,13 @@ router.post('/restaurants', function(req,res) {
 router.post('/images', function(req,res){
 	var city = req.body.city;
 
-	var query =' SELECT B.name, P.photo_id' +
-				' FROM Business_NonNY B JOIN Business_Photos P' +
-				' ON B.business_id = P.business_id AND B.city = ' + '\''+ city + '\'';
+	// var query =' SELECT B.name, P.photo_id' +
+	// 			' FROM Business_NonNY B JOIN Business_Photos P' +
+	// 			' ON B.business_id = P.business_id AND B.city = ' + '\''+ city + '\'';
+
+  var query = 'SELECT B.name, P.photo_id' +
+              ' FROM (SELECT Bus.business_id, Bus.name FROM Business_NonNY Bus WHERE Bus.city = ' + '\''+ city + '\' LIMIT 50) B JOIN Business_Photos P' +
+              ' ON B.business_id = P.business_id LIMIT 50';
 
 	connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
