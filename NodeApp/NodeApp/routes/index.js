@@ -87,6 +87,10 @@ router.get('/dropoff', function(req,res) {
     });
 });
 
+router.get('/queries', function(req, res, next) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
+});
+
 // most common categories closest to input
 router.get('/categories', function(req,res) {
 
@@ -126,14 +130,14 @@ router.get('/fivestar', function(req,res) {
   var latitude = 40.7172485;
   var longitude = -73.9448511;
 
-  var query = 'SELECT DISTINCT Business.name, Business.rating, Business.latitude, Business.longitude' +
-              ' FROM Taxi_Dropoff' +
-              ' JOIN BusinessLocationRel ON ROUND(Taxi_Dropoff.latitude, 5) = ' +
-              ' ROUND(BusinessLocationRel.latitude, 5) AND ROUND(Taxi_Dropoff.longitude, 5) = ' +
-              ' ROUND(BusinessLocationRel.longitude, 5)' +
-              ' JOIN Business ON Business.id = BusinessLocationRel.id'; 
+  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
+              'FROM Dropoff' + 
+              'JOIN BusinessLocationRel ON ROUND(Dropoff.latitude, 5) = ' +
+              'ROUND(BusinessLocationRel.latitude, 5) AND ROUND(Dropoff.longitude, 5) = ' + 
+              'ROUND(BusinessLocationRel.longitude, 5)' +  
+              'JOIN Business ON Business.id = BusinessLocationRel.id'; 
 
-  query = query + ' Order by Business.rating desc, ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)) asc, Taxi_Dropoff.count desc';
+  query = query + ' Order by Business.rating desc, ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)) asc, Dropoff.count desc';
   query = query + ' LIMIT 20';
 
   connection.query(query, function(err, rows, fields) {
@@ -153,15 +157,15 @@ router.get('/landmark', function(req,res) {
   var longitude = -73.9448511;
 
   var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
-              ' FROM Taxi_Dropoff' +
-              ' JOIN BusinessLocationRel ON ROUND(Taxi_Dropoff.latitude,4) = ' +
-              ' ROUND(BusinessLocationRel.latitude,4) AND ROUND(Taxi_Dropoff.longitude,4)= ' +
+              ' FROM Dropoff' +
+              ' JOIN BusinessLocationRel ON ROUND(Dropoff.latitude,4) = ' +
+              ' ROUND(BusinessLocationRel.latitude,4) AND ROUND(Dropoff.longitude,4)= ' +
               ' ROUND(BusinessLocationRel.longitude,4)' +
               ' JOIN Business ON Business.id = BusinessLocationRel.id' +
               ' WHERE Business.categories LIKE \'%Landmarks%\'' +
               ' OR Business.categories LIKE \'%Local Flavor%\'';
 
-  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)), Taxi_Dropoff.count desc';
+  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)), Dropoff.count desc';
   query = query + ' LIMIT 20';
 
   connection.query(query, function(err, rows, fields) {
@@ -181,17 +185,17 @@ router.get('/restaurants', function(req,res) {
   var longitude = -73.9448511;
 
   var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
-              ' FROM Taxi_Dropoff' +
-              ' JOIN BusinessLocationRel ON ROUND(Taxi_Dropoff.latitude,5) = ' +
-              ' ROUND(BusinessLocationRel.latitude,5) AND ROUND(Taxi_Dropoff.longitude,5)= ' +
-              ' ROUND(BusinessLocationRel.longitude,5)' +
+              ' FROM Dropoff' +
+              ' JOIN BusinessLocationRel ON ROUND(Dropoff.latitude,4) = ' +
+              ' ROUND(BusinessLocationRel.latitude,4) AND ROUND(Dropoff.longitude,4)= ' +
+              ' ROUND(BusinessLocationRel.longitude,4)' +
               ' JOIN Business ON Business.business_id = BusinessLocationRel.business_id' +
               ' WHERE Business.categories LIKE \'%Food%\'' +
               ' OR Business.categories LIKE \'%Restaurants%\'' +
               ' OR Business.categories LIKE \'%Fast Food%\'';
 
 
-  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)), Taxi_Dropoff.count desc';
+  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)), Dropoff.count desc';
   query = query + ' LIMIT 20';
 
   connection.query(query, function(err, rows, fields) {
