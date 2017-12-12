@@ -87,6 +87,10 @@ router.get('/dropoff', function(req,res) {
     });
 });
 
+router.get('/queries', function(req, res, next) {
+  res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
+});
+
 // most common categories closest to input
 router.get('/categories', function(req,res) {
 
