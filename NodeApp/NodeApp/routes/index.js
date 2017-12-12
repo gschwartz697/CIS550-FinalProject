@@ -39,7 +39,7 @@ router.get('/data/:pickup', function(req,res) {
 
   var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
               ' From (Select latitude, longitude' + 
-              ' From Taxi_Pickup' +
+              ' From Pickup' +
               ' Order by count) Taxi' +
               ' Join BusinessLocationRel' +
               ' On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
@@ -68,7 +68,7 @@ router.get('/dropoff', function(req,res) {
 
   var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
               ' From (Select latitude, longitude' + 
-              ' From Taxi_Dropoff' +
+              ' From Dropoff' +
               ' Order by count) Taxi' +
               ' Join BusinessLocationRel' +
               ' On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
@@ -93,13 +93,13 @@ router.get('/categories', function(req,res) {
   var latitude = 40.7172485;
   var longitude = -73.9448511;
 
-  var query = 'Select Business.categories, count(distinct concat(Taxi.latitude, Taxi.longitude)) as count' +
+  var query = 'Select DISTINCT Business.categories, count(distinct concat(Taxi.latitude, Taxi.longitude)) as count' +
               ' From ((SELECT latitude, longitude' +
-              ' FROM Taxi_Pickup' +
+              ' FROM Pickup' +
               ' ORDER BY count)' +
               ' UNION ALL' +
               ' (Select latitude, longitude' +
-              ' From Taxi_Dropoff' +
+              ' From Dropoff' +
               ' Order by count)) Taxi' +
               ' Join BusinessLocationRel' +
               ' On ROUND(BusinessLocationRel.latitude,5)=ROUND(Taxi.latitude,5) and ROUND(BusinessLocationRel.longitude,5)=ROUND(Taxi.longitude,5)' +
