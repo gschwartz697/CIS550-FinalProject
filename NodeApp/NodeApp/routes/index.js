@@ -35,15 +35,12 @@ router.get('/queries', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
 });
 
+var temp;
 // most frequent pickup locations closest to input
-router.post('/pickup', function(req,res) {
-  
-  // replace these with user input location
-  var latitude = 40.7172485;
-  var longitude = -73.9448511;
+router.post('/pickup/', function(req,res) {
 
-  // var latitude = req.body.latitude;
-  // var longitude = req.body.longitude;
+  var latitude = req.body.latitude;
+  var longitude = req.body.longitude;
 
   var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
               ' From (Select latitude, longitude' + 
@@ -57,20 +54,25 @@ router.post('/pickup', function(req,res) {
   query = query + ' LIMIT 40'
   console.log(query);
   connection.query(query, function(err, rows, fields) {
-    if (err) console.log(err);
-    else {
-        console.log(rows);
-        res.send(rows);
-    }  
+      if (err) console.log(err);
+      else {
+          console.log(rows);
+          temp = rows;
+          res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
+      }  
     });    
+});
+
+router.get('/data', function(req, res) {
+  console.log("TEmp: " + temp);
+  res.send(temp);
 });
 
 // most frequent dropoff locations closest to input
 router.post('/dropoff', function(req,res) {
 
-  // replace these with user input location
-  var latitude = 40.7172485;
-  var longitude = -73.9448511;
+  var latitude = req.body.latitude;
+  var longitude = req.body.longitude;
 
   var query = 'Select DISTINCT Business.name, Business.latitude, Business.longitude' +
               ' From (Select latitude, longitude' + 
@@ -87,7 +89,8 @@ router.post('/dropoff', function(req,res) {
     if (err) console.log(err);
     else {
         console.log(rows);
-        res.json(rows);
+        temp = rows;
+        res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
     }  
     });
 });
@@ -99,9 +102,8 @@ router.get('/queries', function(req, res, next) {
 // most common categories closest to input
 router.post('/categories', function(req,res) {
 
-  // replace these with user input location
-  var latitude = 40.7172485;
-  var longitude = -73.9448511;
+  var latitude = req.body.latitude;
+  var longitude = req.body.longitude;
 
   var query = 'Select DISTINCT Business.categories, count(distinct concat(Taxi.latitude, Taxi.longitude)) as count' +
               ' From ((SELECT latitude, longitude' +
@@ -123,7 +125,8 @@ router.post('/categories', function(req,res) {
     if (err) console.log(err);
     else {
         console.log(rows);
-        res.json(rows);
+        temp = rows;
+        res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
     }  
     });
 });
@@ -131,11 +134,10 @@ router.post('/categories', function(req,res) {
 // highest rated locations closest to input
 router.post('/fivestar', function(req,res) {
 
-  // replace these with user input location
-  var latitude = 40.7172485;
-  var longitude = -73.9448511;
+  var latitude = req.body.latitude;
+  var longitude = req.body.longitude;
 
-  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
+  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude ' +
               'FROM Dropoff' + 
               'JOIN BusinessLocationRel ON ROUND(Dropoff.latitude, 5) = ' +
               'ROUND(BusinessLocationRel.latitude, 5) AND ROUND(Dropoff.longitude, 5) = ' + 
@@ -149,7 +151,8 @@ router.post('/fivestar', function(req,res) {
     if (err) console.log(err);
     else {
         console.log(rows);
-        res.json(rows);
+        temp = rows;
+        res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
     }  
     });
 });
@@ -157,11 +160,10 @@ router.post('/fivestar', function(req,res) {
 // tourist destinations closest to input
 router.post('/landmark', function(req,res) {
 
-  // replace these with user input location
-  var latitude = 40.7172485;
-  var longitude = -73.9448511;
+  var latitude = req.body.latitude;
+  var longitude = req.body.longitude;
 
-  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
+  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude ' +
               ' FROM Dropoff' +
               ' JOIN BusinessLocationRel ON ROUND(Dropoff.latitude,4) = ' +
               ' ROUND(BusinessLocationRel.latitude,4) AND ROUND(Dropoff.longitude,4)= ' +
@@ -177,7 +179,8 @@ router.post('/landmark', function(req,res) {
     if (err) console.log(err);
     else {
         console.log(rows);
-        res.json(rows);
+        temp = rows;
+        res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
     }  
     });
 });
@@ -185,11 +188,10 @@ router.post('/landmark', function(req,res) {
 // restaurants closest to input
 router.post('/restaurants', function(req,res) {
 
-  // replace these with user input location
-  var latitude = 40.7172485;
-  var longitude = -73.9448511;
+  var latitude = req.body.latitude;
+  var longitude = req.body.longitude;
 
-  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
+  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude ' +
               ' FROM Dropoff' +
               ' JOIN BusinessLocationRel ON ROUND(Dropoff.latitude,4) = ' +
               ' ROUND(BusinessLocationRel.latitude,4) AND ROUND(Dropoff.longitude,4)= ' +
@@ -207,7 +209,8 @@ router.post('/restaurants', function(req,res) {
     if (err) console.log(err);
     else {
         console.log(rows);
-        res.json(rows);
+        temp = rows;
+        res.sendFile(path.join(__dirname, '../', 'views', 'queries.html'));
     }  
     });
 });
