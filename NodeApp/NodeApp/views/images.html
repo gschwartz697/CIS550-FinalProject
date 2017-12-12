@@ -9,6 +9,33 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
         <!-- Custom styles for this template-->
         <link href="../css/navbar-static-top.css" rel="stylesheet">
+        <script>
+            $.getJSON('/data', function(data) {
+                console.log("in this script function");
+                for (i in data) {
+                    var elt = data[i];
+                    var DOM_img = document.createElement("img");
+                    // API version
+                    DOM_img.src = "http://s3-media2.ak.yelpcdn.com/bphoto/"+ elt.photo_id + "/ms.jpg";
+                    DOM_img.alt = 'Business: ' + elt.name;
+                    DOM_img.title = 'Business: ' + elt.name;
+
+                    var elem = document.createElement('p');
+                    //var text = document.createTextNode('Business: ' + elt.name);
+                    elem.append(DOM_img);
+                    //elem.append(text);
+                    //document.getElementById('image-results').appendChild(DOM_img);
+                    document.getElementById('image-results').append(elem);
+                    elem.style.fontSize = "12px";
+                    elem.style.float = "left";
+                    elem.style.display = "inline";
+                    elem.style.marginRight = "5px";
+                    elem.style.marginLeft = "5px";
+                }
+                document.getElementById('results-text').textContent = 'Image Results';
+            });
+
+        </script>
         <style>
             .nav-link {
                 margin-left: 20px;
@@ -25,27 +52,25 @@
                 font-size: 14px;
                 margin-bottom: 10px;
             }
+            #tableForm {
+                text-align: center;
+            }
+            .form-header {
+              text-align: center;
+              font-size: 20px;
+              margin-bottom: 10px;
+            }
             #image-dropdown {
-
+              height: 35px;
+              width: 200px;
+              margin-right: 5px;
+            }
+            img {
+              width: 200px;
+              height: 200px;
             }
         </style>
-        <script>
-            $.getJSON('/data', function(data) {
-                console.log("in this script function");
-                for (i in data) {
-                    var elt = data[i];
-                    var DOM_img = document.createElement("img");
-                    // API version
-                    DOM_img.src = "http://s3-media2.ak.yelpcdn.com/bphoto/"+ elt.photo_id + "/ms.jpg";
-
-                    var elem = document.createElement('p');
-                    var text = document.createTextNode('Business: ' + elt.name + ' Photo ID: ' + elt.photo_id);
-                    elem.append(text);
-                    document.getElementById('image-results').appendChild(DOM_img);
-                    document.getElementById('image-results').append(elem);
-                }
-            });
-        </script>
+        
         
     </head>
     <body data-spy="scroll" data-target=".scrollspy">
@@ -60,31 +85,34 @@
                 </div>
             </div>
         </nav>
+        <div class="container">
+          <div class="jumbotron">
+          <div class="form-header">Select a City:</div>
+          <form id="tableForm" action="/images" method="post">
+              <select id="image-dropdown" class="dropdown" data-style="btn-info" name="city">
+                <script>
+                var select = document.getElementById("image-dropdown"); 
+                var options = ['Richmond Heights', 'Charlotte', 'Toronto', 'Scottsdale', 'Phoenix',
+               'Pittsburgh', 'McMurray', 'Gilbert', 'Las Vegas', 'Cleveland', 'Edinburgh', 'Montréal', 'Madison',
+               'Pickering', 'Middleton', 'Champaign', 'Montreal', 'Tempe', 'Stuttgart', 
+               'Urbana', 'Brecksville', 'Glasgow', 'Bedford', 'Glendale', 'Harrisburg', 
+               'Verona', 'North Las Vegas', 'Lakewood', 'Strongsville', 'Goodyear', 'Vaughan', 'Willoughby',
+               'Scarborough', 'Concord', 'Savoy', 'Avon', 'Dallas', 'Windsor']; 
 
-        <form id="tableForm" action="/images" method="post">
-            <select id="image-dropdown" class="dropdown" data-style="btn-info" name="city">
-              <script>
-              var select = document.getElementById("image-dropdown"); 
-              var options = ['Richmond Heights', 'Charlotte', 'Toronto', 'Scottsdale', 'Phoenix',
-             'Pittsburgh', 'McMurray', 'Gilbert', 'Las Vegas', 'Cleveland', 'Edinburgh', 'Montréal', 'Madison',
-             'Pickering', 'Middleton', 'Champaign', 'Montreal', 'Tempe', 'Stuttgart', 
-             'Urbana', 'Brecksville', 'Glasgow', 'Bedford', 'Glendale', 'Harrisburg', 
-             'Verona', 'North Las Vegas', 'Lakewood', 'Strongsville', 'Goodyear', 'Vaughan', 'Willoughby',
-             'Scarborough', 'Concord', 'Savoy', 'Avon', 'Dallas', 'Windsor']; 
-
-              for(var i = 0; i < options.length; i++) {
-                  var opt = options[i];
-                  var el = document.createElement("option");
-                  el.textContent = opt;
-                  el.value = opt;
-                  select.appendChild(el);
-              }
-            </script>
-            </select>
-            <button type="submit" class="btn btn-primary">Submit </button>
-        </form>
-        <div class="row" id="image-results">
-            <h3> Query results</h3>
+                for(var i = 0; i < options.length; i++) {
+                    var opt = options[i];
+                    var el = document.createElement("option");
+                    el.textContent = opt;
+                    el.value = opt;
+                    select.appendChild(el);
+                }
+              </script>
+              </select>
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+          <div class="row" id="image-results">
+              <h3 id="results-text"></h3>
+          </div>
         </div>
 
          <!-- <div class="container">
