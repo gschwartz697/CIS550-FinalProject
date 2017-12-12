@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="angularjsNodejsTutorial">
+<html ng-app="angularjsNodesjsTutorial">
     <head>
         <title>Yelp x NYC Taxi</title>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
@@ -52,8 +52,8 @@
             <td> Name </td>
             <td> Latitude </td>
             <td> Longitude </td>
-            <tr ng-repeat="x"> 
-            <td> {{x}} </td>
+            <tr ng-repeat="x in data"> 
+            <td> {{x.name}} </td>
             <td> {{x.latitude}} </td>
             <td> {{x.longitude}} </td>
             </tr>

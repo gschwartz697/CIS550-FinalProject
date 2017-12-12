@@ -12,13 +12,14 @@ var connection = mysql.createConnection({
 });
 
 /* GET home page. */
+
 router.get('/', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../', 'views', 'index.html'));
 });
 
 /* GET image search page */
 router.get('/images', function(req, res, next) {
-  console.log("GOT IMAGES SIGNAL");
+  //console.log("GOT IMAGES SIGNAL");
   res.sendFile(path.join(__dirname, '../', 'views', 'images.html'));
 });
 
@@ -31,7 +32,7 @@ router.get('/insert', function(req, res, next) {
 });
 
 // most frequent pickup locations closest to input
-router.get('/data/:pickup', function(req,res) {
+router.get('/pickup', function(req,res) {
   
   // replace these with user input location
   var latitude = 40.7172485;
@@ -47,16 +48,16 @@ router.get('/data/:pickup', function(req,res) {
 
   query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude))';
   query = query + ' LIMIT 40'
-
+  console.log(query);
   connection.query(query, function(err, rows, fields) {
     if (err) console.log(err);
     else {
         console.log(rows);
         res.json(rows);
-        res.sendFile(path.join(__dirname, '../', 'views', 'showdata.html'));
     }  
     });
-  
+  //res.sendFile(path.join(__dirname, '../', 'views', 'showdata.html'));
+    
 });
 
 // most frequent dropoff locations closest to input
@@ -74,7 +75,7 @@ router.get('/dropoff', function(req,res) {
               ' On ROUND(BusinessLocationRel.latitude,4)=ROUND(Taxi.latitude,4) and ROUND(BusinessLocationRel.longitude,4)=ROUND(Taxi.longitude,4)' +
               ' Join Business on BusinessLocationRel.id=Business.id';
 
-  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude))';
+  query = query + ' Order by ABS((' + latitude + '-Business.latitude)+(' + longitude + '-Business.longitude))';
   query = query + ' LIMIT 40'
 
   connection.query(query, function(err, rows, fields) {
@@ -200,6 +201,26 @@ router.get('/restaurants', function(req,res) {
         res.json(rows);
     }  
     });
+});
+
+router.get('/images:results', function(req,res){
+
+	var city = req.params.dropdown.name;
+
+	var query = 'WITH business_ids AS (' +
+				' SELECT business_id, name FROM Business_NonNY B' + 
+				' WHERE B.city='+ city +')' + 
+				' SELECT B.name, P.photo_id' +
+				' FROM business_ids B JOIN Business_Photos P' +
+				' ON B.business_id = P.business_id';
+
+	connection.query(query, function(err, rows, fields) {
+    if (err) console.log(err);
+    else {
+        res.json(rows);
+    }  
+    });
+
 });
 
 module.exports = router;
