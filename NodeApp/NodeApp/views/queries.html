@@ -10,7 +10,15 @@
                 for (i in data) {
                     var elt = data[i];
                     var elem = document.createElement('p');
-                    var text = document.createTextNode('Business: ' + elt.name + ' Latitude: ' + elt.latitude + ' Longitude: ' + elt.longitude);
+                    // if categories query
+                    var text;
+                    if(elt.latitude == null) {
+                        text = document.createTextNode('Categories: ' + elt.categories + ' Count: ' + elt.count);
+                    }
+                    else {
+                        text = document.createTextNode('Business: ' + elt.name + ' Latitude: ' + elt.latitude + ' Longitude: ' + elt.longitude);
+                    }
+                    
                     elem.append(text);
                     document.getElementById('results').append(elem);
                     document.getElementById('results').style.display='inline';
