@@ -137,12 +137,12 @@ router.post('/fivestar', function(req,res) {
   var latitude = req.body.latitude;
   var longitude = req.body.longitude;
 
-  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude ' +
-              'FROM Dropoff' + 
-              'JOIN BusinessLocationRel ON ROUND(Dropoff.latitude, 5) = ' +
-              'ROUND(BusinessLocationRel.latitude, 5) AND ROUND(Dropoff.longitude, 5) = ' + 
-              'ROUND(BusinessLocationRel.longitude, 5)' +  
-              'JOIN Business ON Business.id = BusinessLocationRel.id'; 
+  var query = 'SELECT DISTINCT Business.name, Business.latitude, Business.longitude' +
+              ' FROM Dropoff' + 
+              ' JOIN BusinessLocationRel ON ROUND(Dropoff.latitude, 5) =' +
+              ' ROUND(BusinessLocationRel.latitude, 5) AND ROUND(Dropoff.longitude, 5) =' + 
+              ' ROUND(BusinessLocationRel.longitude, 5)' +  
+              ' JOIN Business ON Business.id = BusinessLocationRel.id'; 
 
   query = query + ' Order by Business.rating desc, ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)) asc, Dropoff.count desc';
   query = query + ' LIMIT 20';
