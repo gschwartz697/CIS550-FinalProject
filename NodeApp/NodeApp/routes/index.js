@@ -104,10 +104,8 @@ router.post('/categories', function(req,res) {
 
   var latitude = req.body.latitude;
   var longitude = req.body.longitude;
-  var category = req.body.category;
 
-
-  var query = 'Select DISTINCT ROUND(Taxi.latitude,5), ROUND(Taxi.longitude,5), count(distinct concat(Taxi.latitude, Taxi.longitude) as count' +
+  var query = 'Select DISTINCT Business.categories, count(distinct concat(Taxi.latitude, Taxi.longitude)) as count' +
               ' From ((SELECT latitude, longitude' +
               ' FROM Pickup' +
               ' ORDER BY count)' +
@@ -117,9 +115,10 @@ router.post('/categories', function(req,res) {
               ' Order by count)) Taxi' +
               ' Join BusinessLocationRel' +
               ' On ROUND(BusinessLocationRel.latitude,5)=ROUND(Taxi.latitude,5) and ROUND(BusinessLocationRel.longitude,5)=ROUND(Taxi.longitude,5)' +
-              ' Join (SELECT * FROM Business B WHERE categories LIKE \'%' + category + '%\') Business on BusinessLocationRel.id=Business.id' +
-              ' Group by ROUND(Taxi.latitude,5), ROUND(Taxi.longitude,5)';
+              ' Join Business on BusinessLocationRel.id=Business.id' +
+              ' Group by Business.categories';
 
+  query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)), count desc';
   query = query + ' LIMIT 20'
 
   connection.query(query, function(err, rows, fields) {
