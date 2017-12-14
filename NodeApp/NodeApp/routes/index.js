@@ -196,11 +196,10 @@ router.post('/restaurants', function(req,res) {
               ' JOIN BusinessLocationRel ON ROUND(Dropoff.latitude,4) = ' +
               ' ROUND(BusinessLocationRel.latitude,4) AND ROUND(Dropoff.longitude,4)= ' +
               ' ROUND(BusinessLocationRel.longitude,4)' +
-              ' JOIN Business ON Business.business_id = BusinessLocationRel.business_id' +
+              ' JOIN Business ON Business.id = BusinessLocationRel.id' +
               ' WHERE Business.categories LIKE \'%Food%\'' +
               ' OR Business.categories LIKE \'%Restaurants%\'' +
               ' OR Business.categories LIKE \'%Fast Food%\'';
-
 
   query = query + ' Order by ABS((' + latitude+ '-Business.latitude)+(' + longitude+ '-Business.longitude)), Dropoff.count desc';
   query = query + ' LIMIT 20';

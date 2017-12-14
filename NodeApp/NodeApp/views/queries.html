@@ -55,6 +55,9 @@
                 margin-top: 20px;
                 display: none;
             }
+            .query-description {
+                font-size: 16px;
+            }
         </style>
     </head>
     <body data-spy="scroll" data-target=".scrollspy">
@@ -76,6 +79,7 @@
                         <h3>Pickup</h3>
                         <form method="post" action="/pickup">
                           <div class="form-signin">
+                            <span class="query-description">Find the most common pickup locations near your coordinates.</span>
                             <p>Latitude</p>
                             <input type="latitude" class="form-control" id="latitude" name="latitude" placeholder="Enter latitude">
                             <br>
@@ -90,6 +94,7 @@
                         <h3>Dropoff</h3>
                         <form method="post" action="/dropoff">
                           <div class="form-signin">
+                            <span class="query-description">Find the most common dropoff locations near your coordinates.</span>
                             <p>Latitude</p>
                             <input type="latitude" class="form-control" id="latitude" name="latitude" placeholder="Enter latitude">
                             <br>
@@ -104,6 +109,7 @@
                         <h3>Categories</h3>
                         <form method="post" action="/categories">
                           <div class="form-signin">
+                            <span class="query-description">Find the most common category groups for businesses near your coordinates.</span>
                             <p>Latitude</p>
                             <input type="latitude" class="form-control" id="latitude" name="latitude" placeholder="Enter latitude">
                             <br>
@@ -122,6 +128,7 @@
                         <h3>Rating</h3>
                         <form method="post" action="/fivestar">
                           <div class="form-signin">
+                            <span class="query-description">Find the highest rated businesses near your coordinates.</span>
                             <p>Latitude</p>
                             <input type="latitude" class="form-control" id="latitude" name="latitude" placeholder="Enter latitude">
                             <br>
@@ -136,6 +143,7 @@
                         <h3>Landmarks</h3>
                         <form method="post" action="/landmark">
                           <div class="form-signin">
+                            <span class="query-description">Find the landmarks near your coordinates people most frequently get picked up from and dropped off at.</span>
                             <p>Latitude</p>
                             <input type="latitude" class="form-control" id="latitude" name="latitude" placeholder="Enter latitude">
                             <br>
@@ -150,6 +158,7 @@
                         <h3>Restaurants</h3>
                         <form method="post" action="/restaurants">
                           <div class="form-signin">
+                            <span class="query-description">Find the restaurants near your coordinates people most frequently get picked up from and dropped off at.</span>
                             <p>Latitude</p>
                             <input type="latitude" class="form-control" id="latitude" name="latitude" placeholder="Enter latitude">
                             <br>
