@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html ng-app="angularjsNodejsTutorial">
+<html>
     <head>
         <title>Yelp x NYC Taxi</title>
         <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.js"></script>
-        <script src="../app.js" type="text/javascript"></script>
         <script>
             $.getJSON('/data', function(data) {
-                for (i in data) {
-                    var elt = data[i];
-                    var elem = document.createElement('p');
-                    // if categories query
-                    var text;
-                    if(elt.latitude == null) {
-                        text = document.createTextNode('Category group: ' + elt.categories);
-                        // var categories_obj = JSON.parse(elt.categories);
-                        // console.log('size of categories: ' + categories_obj.length)
-                        // var text_content = 'Category group: ';
-                        // for(var cat in categories_obj) {
-                        //     text_content + cat.title;
-                        // }
-                        // text = document.createTextNode(text_content);
-                        
-                    }
-                    else {
-                        text = document.createTextNode('Business: ' + elt.name + ' Latitude: ' + elt.latitude + ' Longitude: ' + elt.longitude);
-                    }
-                    
-                    elem.append(text);
-                    document.getElementById('results').append(elem);
-                    document.getElementById('results').style.display='inline';
+
+                var div = document.getElementById('results');
+                document.getElementById('results').style.display='inline';
+
+                if (!data) {
+                    return;
                 }
+
+                if (data[0].latitude) {
+                    for (i in data) {
+                        var elt = data[i];
+                        var elem =  document.createElement('p');
+                        var text = document.createTextNode('Business: ' + elt.name + ' Latitude: ' + elt.latitude + ' Longitude: ' + elt.longitude);
+                        elem.append(text);
+                        div.append(elem);
+                    }
+                } else {
+                // category query case
+                    for (i in data) {
+                        var elt = data[i];
+                        var string = elt.categories;
+                        string = string.replace(/\'/g, '"');
+                        var array = JSON.parse(string);
+                        for (i in array) {
+                            var p1 = document.createElement('p');
+                            p1.append(document.createTextNode(array[i].title));
+                            div.append(p1);
+                        }
+                    }
+                }
+
             });
         </script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
