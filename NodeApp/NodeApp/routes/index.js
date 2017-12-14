@@ -1,8 +1,11 @@
+'use strict';
+
 var express = require('express');
 var router = express.Router();
 var path = require('path');
 
 // Connect string to MySQL
+var AWS = require("aws-sdk");
 var mysql = require('mysql');
 var connection = mysql.createConnection({
   host     : 'cis450-final-project.ccgv1mp2bvqd.us-east-1.rds.amazonaws.com',
@@ -10,6 +13,18 @@ var connection = mysql.createConnection({
   password : 'password450',
   database : 'cis450finalproject'
 });
+
+
+var AWS = require("aws-sdk");
+AWS.config.loadFromPath('./config.json');
+
+// AWS.config.update({
+//   endpoint: "http://localhost:8080"
+// });
+
+var dynamodb = new AWS.DynamoDB();
+
+var docClient = new AWS.DynamoDB.DocumentClient();
 
 /* GET home page. */
 
@@ -215,25 +230,37 @@ router.post('/restaurants', function(req,res) {
 });
 
 router.post('/images', function(req,res){
-	var city = req.body.city;
+	//var city = req.body.city;
 
 	// var query =' SELECT B.name, P.photo_id' +
 	// 			' FROM Business_NonNY B JOIN Business_Photos P' +
 	// 			' ON B.business_id = P.business_id AND B.city = ' + '\''+ city + '\'';
 
-  var query = 'SELECT B.name, P.photo_id' +
-              ' FROM (SELECT Bus.business_id, Bus.name FROM Business_NonNY Bus WHERE Bus.city = ' + '\''+ city + '\' LIMIT 100) B JOIN Business_Photos P' +
-              ' ON B.business_id = P.business_id LIMIT 100';
+ //  var query = 'SELECT B.name, P.photo_id' +
+ //              ' FROM (SELECT Bus.business_id, Bus.name FROM Business_NonNY Bus WHERE Bus.city = ' + '\''+ city + '\' LIMIT 100) B JOIN Business_Photos P' +
+ //              ' ON B.business_id = P.business_id LIMIT 100';
 
-	connection.query(query, function(err, rows, fields) {
-    if (err) console.log(err);
-    else {
-        console.log(rows);
-        temp = rows;
-        res.sendFile(path.join(__dirname, '../', 'views', 'images.html'));
-    }  
-    });
+	// connection.query(query, function(err, rows, fields) {
+ //    if (err) console.log(err);
+ //    else {
+ //        console.log(rows);
+ //        temp = rows;
+ //        res.sendFile(path.join(__dirname, '../', 'views', 'images.html'));
+ //    }  
+ //    });
 
+
+	var db = new AWS.DynamoDB();
+	db.client.scan({
+		TableName: 'cis450-yelp-images',
+		Limit: 1
+	}, function(err, data){
+		if(err){
+			console.log(err); 
+			return;
+		}
+		console.log(data);
+	});
 });
 
 module.exports = router;
