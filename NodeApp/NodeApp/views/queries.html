@@ -13,7 +13,15 @@
                     // if categories query
                     var text;
                     if(elt.latitude == null) {
-                        text = document.createTextNode('Category group: ' + elt.categories + ' Count: ' + elt.count);
+                        text = document.createTextNode('Category group: ' + elt.categories);
+                        // var categories_obj = JSON.parse(elt.categories);
+                        // console.log('size of categories: ' + categories_obj.length)
+                        // var text_content = 'Category group: ';
+                        // for(var cat in categories_obj) {
+                        //     text_content + cat.title;
+                        // }
+                        // text = document.createTextNode(text_content);
+                        
                     }
                     else {
                         text = document.createTextNode('Business: ' + elt.name + ' Latitude: ' + elt.latitude + ' Longitude: ' + elt.longitude);
@@ -58,6 +66,15 @@
             .query-description {
                 font-size: 16px;
             }
+            .hint {
+                font-size: 16px;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .page-title {
+                font-size: 40px;
+                text-align: center;
+            }
         </style>
     </head>
     <body data-spy="scroll" data-target=".scrollspy">
@@ -73,6 +90,8 @@
             </div>
         </nav>
          <div class="container">
+            <div class="page-title">Queries</div>
+            <div class="hint">Hint: New York City latitude and longitude coordinates are 40.730610, -73.935242.</div>
             <div class="col-sm-12">
                 <div class="row">
                     <div class="col-sm-4" ng-controller="myController">
