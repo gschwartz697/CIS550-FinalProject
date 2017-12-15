@@ -17,7 +17,7 @@
                     var elt = data[i];
                     var DOM_img = document.createElement("img");
                     // API version
-                    DOM_img.src = "http://s3-media2.ak.yelpcdn.com/bphoto/"+ elt.photo_id + "/ms.jpg";
+                    DOM_img.src = "https://s3.amazonaws.com/450yelp-image-ids/"+ elt.photo_id + ".jpg";
                     DOM_img.alt = 'Business: ' + elt.name;
                     DOM_img.title = 'Business: ' + elt.name;
 
